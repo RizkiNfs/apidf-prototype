@@ -2,6 +2,19 @@
 
 const { state } = useFileEditor()
 
+const route = useRoute()
+
+const handleDownload = () => {
+  $fetch(`/api/create/${route.params.id}`, {
+    method: 'POST',
+    body: {
+      schema: state.value
+    }
+  }).then((res) => {
+    download(res, state.value.id)
+  })
+}
+
 </script>
 
 <template>
@@ -9,9 +22,9 @@ const { state } = useFileEditor()
     <header class="h-12 border-b p-2 fixed top-0 w-full bg-white z-10 flex items-center justify-between">
       <h1>apidf</h1>
       <div>
-        <button>
+        <ui-button @click="handleDownload">
           Download
-        </button>
+        </ui-button>
       </div>
     </header>
     <div class="flex h-screen">
