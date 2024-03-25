@@ -2,12 +2,17 @@
 import type { Node } from '@/composables/editor'
 import { Icon } from '@iconify/vue'
 
-const props = defineProps<{ node: Node }>()
+const props = defineProps<{ node: Node, parentNode?: Node }>()
 
-const { selectedNode } = useFileEditor()
+const { setSelectedNode } = useFileEditor()
 
 const showToolbar = ref(false)
 
+const visibleToolbarType = [
+  'view',
+  'list',
+  'page'
+]
 
 </script>
 
@@ -24,7 +29,7 @@ const showToolbar = ref(false)
       </button>
     </div>
     <button
-      @click.stop="selectedNode = node" 
+      @click.stop="setSelectedNode(node, parentNode)" 
       class="flex-1"
     >
       <span class="line-clamp-1 text-left">
@@ -32,7 +37,7 @@ const showToolbar = ref(false)
       </span>
     </button>
     <node-panel-toolbar
-      v-if="props.node.type !== 'text' && showToolbar"
+      v-if="showToolbar && visibleToolbarType.includes(props.node.type)"
       :selected-node="node"
     />
   </div>

@@ -17,7 +17,7 @@ const items: Array<{key: keyof Style, properties: typeof properties}> = [
 </script>
 
 <template>
-  <div v-if="selectedNode?.type === 'view'">
+  <div>
     <ui-expanded :items="items" valueKey="key">
       <template #default>
         <div class="flex items-center flex-1">

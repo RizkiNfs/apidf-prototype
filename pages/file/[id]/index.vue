@@ -25,16 +25,8 @@ const pageSizes = {
         v-for="node of page.children" 
         :key="node.id" 
       >
-        <ui-node-view
-          v-if="node.type === 'view'"
-          :node="node"
-          :class="selectedNode?.id === node.id && 'outline'"
-        />
-        <ui-node-text
-          v-if="node.type === 'text'"
-          :node="node"
-          :class="selectedNode?.id === node.id && 'outline'"
-        />
+        <ui-node :node="node" :parent-node="page">  
+        </ui-node>
       </template>
     </div>
   </div>

@@ -1,6 +1,6 @@
 <script setup>
 
-const { state } = useFileEditor()
+const { state, selectedNode } = useFileEditor()
 
 const route = useRoute()
 
@@ -34,14 +34,15 @@ const handleDownload = () => {
       >
         <node-panel :nodes="state.children" />
       </aside>
-      <main class="flex-1 p-4 flex justify-center py-12">
+      <main class="flex-1 p-4 flex justify-center py-12" @click.stop="selectedNode=null">
         <slot />
       </main>
       <aside 
         class="w-80 p-2 fixed right-0 top-12 border-l overflow-auto"
         :style="{height: 'calc(100vh - 48px)'}"
       >
-        <properties-panel />
+        <properties-panel v-if="selectedNode" />
+        <app-panel v-else />
       </aside>
     </div>
   </div>

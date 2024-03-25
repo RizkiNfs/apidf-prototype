@@ -1,9 +1,21 @@
 <script setup lang="ts">
-import type { Node } from '@/composables/editor'
+import mustache from 'mustache'
 
-const props = defineProps<{ node: Node }>()
+const props = defineProps<{ 
+  node: TextNode
+  parentNode?: Node
+  data?: unknown 
+}>()
 
-const { selectedNode } = useFileEditor()
+const { selectedNode, state } = useFileEditor()
+
+const text = computed(() => {
+  try {
+    return mustache.render(props.node.children || '', {...(props.data || {}), ...safeJSONparse(state.value.exampleData)})
+  } catch {
+    return props.node.children
+  }
+})
 
 
 </script>
@@ -14,6 +26,6 @@ const { selectedNode } = useFileEditor()
     :style="(props.node.style as any)" 
     class="hover:outline-2 hover:outline cursor-pointer oke"
   >
-    {{ props.node.children }}
+    {{ text }}
   </p>
 </template>

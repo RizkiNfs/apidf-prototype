@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import type { Node } from '@/composables/editor'
 
-const props = defineProps<{ node: Node }>()
+const props = defineProps<{
+  node: ViewNode
+  parentNode?: Node
+  data?: unknown
+}>()
 
 const { selectedNode } = useFileEditor()
 
@@ -17,15 +20,9 @@ const { selectedNode } = useFileEditor()
       v-for="(item) of props.node.children"
       :key="item.id"
     >
-      <ui-node-view
-        v-if="(item as Node).type === 'view'"
-        :node="(item as Node)"
-        :class="selectedNode?.id === (item as Node).id && 'outline'"
-      />
-      <ui-node-text
-        v-if="(item as Node).type === 'text'"
-        :node="(item as Node)"
-        :class="selectedNode?.id === (item as Node).id && 'outline'"
+      <ui-node
+        :node="item"
+        :data="props.data"
       />
     </template>
   </div>
